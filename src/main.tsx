@@ -4,9 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { init } from 'tsv-tracker';
 
-const _tsvSiteId = import.meta.env.VITE_TSV_SITE_ID as string | undefined;
-const _tsvApiKey = import.meta.env.VITE_TSV_API_KEY as string | undefined;
-if (_tsvSiteId && _tsvApiKey) init({ siteId: _tsvSiteId, apiKey: _tsvApiKey });
+init({ siteId: 'tsv_348046c107e5', apiKey: 'TSV-7ce051a0bf982427c352cd8ebf2b31a92babf8a9f0096987' });
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
