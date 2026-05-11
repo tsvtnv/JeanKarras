@@ -1,20 +1,44 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+<h1 align="center">👤 Jean Karras</h1>
 
-# Run and deploy your AI Studio app
+<p align="center">
+  <strong>Client website for Jean Karras — open source, built by TsvWeb</strong>
+</p>
 
-This contains everything you need to run your app locally.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white">
+  <img src="https://img.shields.io/badge/Open%20Source-MIT-yellow?style=flat-square">
+</p>
 
-View your app in AI Studio: https://ai.studio/apps/9a105276-b896-414e-8d18-6b7780d20e5d
+---
 
-## Run Locally
+## ✨ What is this?
 
-**Prerequisites:**  Node.js
+The website for Jean Karras, built and designed by TsvWeb. Open-sourced as a portfolio example of our design and development standards.
 
+## 🛠 Tech Stack
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+| Layer | Technology |
+|---|---|
+| Framework | React + Vite |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+
+## 🚀 Getting Started
+
+```bash
+git clone https://github.com/tsvtnv/JeanKarras.git
+cd JeanKarras
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+## 📄 License
+
+MIT — free to use, modify, and distribute.
+
+---
+
+<p align="center">Made by <a href="https://tsvweb.com"><strong>tsvweb.com</strong></a> · Birmingham, UK 🇬🇧</p>
