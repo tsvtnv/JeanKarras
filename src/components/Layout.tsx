@@ -113,7 +113,7 @@ export const Hero = ({ onCtaClick }: { onCtaClick: (id: string) => void }) => {
       {/* Background Image with Parallax Effect */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="https://picsum.photos/seed/f1-racing-dark/1920/1080" 
+          src="/285A2248.jpg" 
           alt="Jean Karras Racing"
           className="w-full h-full object-cover opacity-60"
           referrerPolicy="no-referrer"

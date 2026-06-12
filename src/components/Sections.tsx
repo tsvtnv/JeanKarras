@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { CAREER_TIMELINE, ACHIEVEMENTS, GALLERY, SPONSORS, DRIVER_STATS } from '../constants';
 import { StatCard, ChampionBadge } from './Layout';
@@ -21,7 +21,7 @@ export const AboutSection = () => (
         >
           <div className="relative z-10 rounded-2xl overflow-hidden aspect-[4/5]">
             <img 
-              src="https://picsum.photos/seed/jeanportrait/800/1000" 
+              src="/JeanPaulKarrasF4SpainBarcelona-SUNDAY-9.jpg" 
               alt="Jean Karras Portrait"
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -62,7 +62,7 @@ export const AboutSection = () => (
           viewport={{ once: true }}
           className="rounded-2xl overflow-hidden aspect-video relative group"
         >
-          <img src="https://picsum.photos/seed/racing-team-1/800/600" alt="Team Work" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
+          <img src="/KARRAS_F4CHESTE_1025_D-MD.6.jpg" alt="Grid Preparation" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end p-6">
             <p className="text-xs font-bold uppercase tracking-widest">Technical Excellence</p>
           </div>
@@ -74,7 +74,7 @@ export const AboutSection = () => (
           transition={{ delay: 0.1 }}
           className="rounded-2xl overflow-hidden aspect-video relative group"
         >
-          <img src="https://picsum.photos/seed/racing-team-2/800/600" alt="Strategy" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
+          <img src="/BA8A8633.jpg" alt="Pit Lane Strategy" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end p-6">
             <p className="text-xs font-bold uppercase tracking-widest">Race Strategy</p>
           </div>
@@ -86,7 +86,7 @@ export const AboutSection = () => (
           transition={{ delay: 0.2 }}
           className="rounded-2xl overflow-hidden aspect-video relative group"
         >
-          <img src="https://picsum.photos/seed/racing-team-3/800/600" alt="Preparation" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
+          <img src="/122A0674.jpg" alt="Garage Preparation" className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent flex items-end p-6">
             <p className="text-xs font-bold uppercase tracking-widest">Peak Preparation</p>
           </div>
@@ -160,83 +160,121 @@ export const CareerSection = () => (
   </section>
 );
 
-export const GallerySection = () => (
-  <section id="gallery" className="py-32">
-    <div className="max-w-7xl mx-auto px-6">
-      <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
-        <div>
-          <h2 className="text-4xl md:text-6xl mb-4">Race <span className="text-primary">Highlights</span></h2>
-          <p className="text-muted">Visual storytelling from the track and beyond.</p>
+export const GallerySection = () => {
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [visibleCount, setVisibleCount] = useState(12);
+  const FILTERS = ['All', 'Action', 'Podium', 'Portrait', 'Behind the Scenes'];
+
+  const filteredGallery = useMemo(() => {
+    if (activeFilter === 'All') return GALLERY;
+    return GALLERY.filter(item => item.category === activeFilter);
+  }, [activeFilter]);
+
+  const visibleItems = filteredGallery.slice(0, visibleCount);
+  const hasMore = visibleCount < filteredGallery.length;
+
+  const handleFilterChange = (filter: string) => {
+    setActiveFilter(filter);
+    setVisibleCount(12);
+  };
+
+  return (
+    <section id="gallery" className="py-32">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-16">
+          <div>
+            <h2 className="text-4xl md:text-6xl mb-4">Race <span className="text-primary">Highlights</span></h2>
+            <p className="text-muted">Visual storytelling from the track and beyond.</p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {FILTERS.map(filter => (
+              <button
+                key={filter}
+                onClick={() => handleFilterChange(filter)}
+                className={`text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full border transition-colors ${
+                  activeFilter === filter
+                    ? 'border-primary bg-primary text-white'
+                    : 'border-border hover:border-primary'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-4">
-          {['All', 'Action', 'Podium', 'Team'].map(filter => (
-            <button key={filter} className="text-xs font-bold uppercase tracking-widest px-6 py-2 rounded-full border border-border hover:border-primary transition-colors">
-              {filter}
-            </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {visibleItems.map((item, idx) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: Math.min(idx * 0.05, 0.3) }}
+              className={`relative group overflow-hidden rounded-2xl ${idx % 5 === 1 ? 'md:row-span-2' : ''}`}
+            >
+              <img 
+                src={item.url} 
+                alt={item.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
+                <span className="text-xs font-bold text-primary uppercase tracking-widest mb-2">{item.category}</span>
+                <h4 className="text-xl font-display">{item.title}</h4>
+              </div>
+            </motion.div>
           ))}
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {GALLERY.map((item, idx) => (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: idx * 0.1 }}
-            className={`relative group overflow-hidden rounded-2xl ${idx % 3 === 1 ? 'md:row-span-2' : ''}`}
-          >
-            <img 
-              src={item.url} 
-              alt={item.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-              <span className="text-xs font-bold text-primary uppercase tracking-widest mb-2">{item.category}</span>
-              <h4 className="text-xl font-display">{item.title}</h4>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      {/* Video Highlights Section */}
-      <div className="mt-32">
-        <div className="text-center mb-16">
-          <h3 className="text-3xl mb-4">Video <span className="text-primary">Highlights</span></h3>
-          <p className="text-muted">Onboard footage and race recaps.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="glass-card aspect-video overflow-hidden relative group">
-            <img src="https://picsum.photos/seed/racing-video-1/1200/675" alt="Video Thumbnail" className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/40 group-hover:scale-110 transition-transform">
-                <Zap size={32} />
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-background to-transparent">
-              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Onboard</p>
-              <h4 className="text-xl">Lap Record at Serres Circuit</h4>
-            </div>
+        {hasMore && (
+          <div className="text-center mt-12">
+            <button
+              onClick={() => setVisibleCount(prev => prev + 12)}
+              className="px-10 py-4 rounded-full font-bold uppercase tracking-widest border border-border hover:border-primary hover:bg-primary hover:text-white transition-all"
+            >
+              Show More Photos
+            </button>
           </div>
-          <div className="glass-card aspect-video overflow-hidden relative group">
-            <img src="https://picsum.photos/seed/racing-video-2/1200/675" alt="Video Thumbnail" className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/40 group-hover:scale-110 transition-transform">
-                <Zap size={32} />
+        )}
+
+        {/* Video Highlights Section */}
+        <div className="mt-32">
+          <div className="text-center mb-16">
+            <h3 className="text-3xl mb-4">Video <span className="text-primary">Highlights</span></h3>
+            <p className="text-muted">Onboard footage and race recaps.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="glass-card aspect-video overflow-hidden relative group">
+              <img src="/GK__5290.jpg" alt="Karting Action" className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/40 group-hover:scale-110 transition-transform">
+                  <Zap size={32} />
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-background to-transparent">
+                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Onboard</p>
+                <h4 className="text-xl">Lap Record at Serres Circuit</h4>
               </div>
             </div>
-            <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-background to-transparent">
-              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Recap</p>
-              <h4 className="text-xl">2025 Championship Season Highlights</h4>
+            <div className="glass-card aspect-video overflow-hidden relative group">
+              <img src="/285A1888.jpg" alt="F4 Race Start" className="w-full h-full object-cover opacity-50 group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-white shadow-xl shadow-primary/40 group-hover:scale-110 transition-transform">
+                  <Zap size={32} />
+                </div>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-background to-transparent">
+                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-2">Recap</p>
+                <h4 className="text-xl">2025 Championship Season Highlights</h4>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export const SponsorsSection = () => (
   <section id="sponsors" className="py-32 bg-surface/50">
