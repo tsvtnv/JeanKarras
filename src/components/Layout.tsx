@@ -244,6 +244,14 @@ export const Footer = ({ onNavClick }: { onNavClick: (id: string) => void }) => 
       
       <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-10 border-t border-border/50">
         <p className="text-xs text-muted">© 2026 Jean Karras Racing. All rights reserved.</p>
+        <a
+          href="https://octelis.com?utm_source=client-site&utm_medium=badge&utm_campaign=built-by&utm_content=jean-karras"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-muted hover:text-accent transition-colors"
+        >
+          Built by Octelis
+        </a>
         <div className="flex gap-8">
           <button className="text-xs text-muted hover:text-accent">Privacy Policy</button>
           <button className="text-xs text-muted hover:text-accent">Terms of Service</button>
